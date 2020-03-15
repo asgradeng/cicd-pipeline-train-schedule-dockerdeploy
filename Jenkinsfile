@@ -15,9 +15,6 @@ pipeline {
             steps {
                 script {
                     app = docker.build("abhisheksirt007/train-schedule")
-                    app.inside {
-                        sh 'echo $(curl localhost:8080)'
-                    }
                 }
             }
         }
@@ -27,7 +24,7 @@ pipeline {
             }
             steps {
                 script {
-                    docker.withRegistry('docker.io', 'docker_hub_login') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                     }
